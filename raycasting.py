@@ -1,41 +1,69 @@
 import pygame
 from pygame.locals import *
 import math as m
+import serial
+import time
+import struct
 
-win_width, win_height = (1600, 900)
-fps = 165 # 165hz monitor btw the way
+ser = serial.Serial('/dev/ttyACM0', 9600)
+time.sleep(2)
+
+win_width, win_height = (1600, 50)
+fps = 165  # 165hz monitor btw the way
 display = pygame.display.set_mode((win_width, win_height))
 pygame.display.set_caption("Raycasting")
 clock = pygame.time.Clock()
 
 environment = [
-    [1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 1],
-    [1, 0, 1, 0, 1],
-    [1, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+    [1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+    [1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1],
+    [1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+
 ]
-fov = 80
+fov = 359
 xpos, ypos = (1, 1)
 rot_r = 0
 
 sensitivity = m.pi/256
 move_speed = 0.01
 
-precision = 0.02
+precision = 0.01
 
 wk, sk, ak, dk = False, False, False, False
 
 run = True
+
+
+def showLED(data):
+    # for i in range(len(data)):
+    #     ser.write(data[i])
+    ser.write(data)
+    # print(data)
+
+
+leds = []
+
+ind = 0
 while run:
     clock.tick(fps)
+    # showLED((bytearray(leds)))
+    showLED(leds)
+    leds = []
     pygame.display.update()
-    pygame.display.set_caption("Raycasting - FPS: " + str(round(clock.get_fps())))
+    pygame.display.set_caption(
+        "Raycasting - FPS: " + str(round(clock.get_fps())))
 
     for e in pygame.event.get():
         if e.type == QUIT:
             run = False
-        
+
         if e.type == KEYDOWN:
             if e.key == pygame.K_w:
                 wk = True
@@ -81,12 +109,20 @@ while run:
                 tile = environment[int(x)][int(y)]
                 d = j
                 j = j * m.cos(m.radians(i-fov/2))
-                height = (10/j * 2500)
+                # height = (10/j * 2500)
+                height = 2500
                 break
-        if d/2 > 255:
-            d = 510
-        pygame.draw.line(display,
-                         (255-d/2, 255-d/2, 255-d/2), # color
-                         (i*(win_width/fov), (win_height/2) + height), # pos 1
-                         (i*(win_width/fov), (win_height/2) - height), # pos 2
-                         width=int(win_width/fov))
+        if d > 255:
+            d = 255
+
+        if (ind % 6 == 0):
+            pygame.draw.line(display,
+                             (0, 255-d, 255-d),  # color
+                             (i*(win_width/fov), (win_height/2) + height),  # pos 1
+                             (i*(win_width/fov), (win_height/2) - height),  # pos 2
+                             width=int(win_width/fov))
+            pixel = [0, 255-d, 255-d]
+            leds.append(0)
+            leds.append(255-d)
+            leds.append(255-d)
+        ind += 1
