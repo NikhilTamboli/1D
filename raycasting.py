@@ -9,7 +9,7 @@ import random
 import ast
 
 
-ser = serial.Serial(baudrate='115200', timeout=.5, port='/dev/ttyACM0')
+ser = serial.Serial(baudrate='230400', timeout=.5, port='/dev/ttyACM0')
 time.sleep(5)
 
 # ser = serial.Serial('/dev/ttyACM0', 9600)
@@ -56,20 +56,45 @@ wk, sk, ak, dk = False, False, False, False
 run = True
 
 
-leds = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+leds = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 ind = 0
+br = 1
 while run:
     clock.tick(fps)
     # print(leds[0])
-    ser.write(pack('15h', leds[0], leds[1], leds[2], leds[3], leds[4], leds[5], leds[6], leds[7], leds[8],
-              leds[9], leds[10], leds[11], leds[12], leds[13], leds[14],))  # the 15h is 15 element, and h is an int type data
-    # ser.write(pack('15h', 10, 20, 30, 40, 50, 60, 70,
-    #           80, 90, 100, 110, 120, 130, 140, 150))
+    # ser.write(pack('60h', br*leds[0], br*leds[1], br*leds[2], br*leds[3], br*leds[4], br*leds[5], br*leds[6], br*leds[7], br*leds[8],
+    #           br*leds[9], br*leds[10], br*leds[11], br*leds[12], br*leds[13], br *
+    #                leds[14], br*leds[15], br*leds[16], br *
+    #                leds[17], br*leds[18], br*leds[19],
+    #                br*leds[20], br*leds[21], br*leds[22], br*leds[23], br*leds[24], br *
+    #                leds[25], br*leds[26], br *
+    #                leds[27], br*leds[28], br*leds[29],
+    #                br*leds[30], br*leds[31], br*leds[32], br*leds[33], br*leds[34], br *
+    #                leds[35], br*leds[36], br *
+    #                leds[37], br*leds[38], br*leds[39],
+    #                br*leds[40], br*leds[41], br*leds[42], br*leds[43], br*leds[44], br *
+    #                leds[45], br*leds[46], br *
+    #                leds[47], br*leds[48], br*leds[49],
+    #                br*leds[50], br*leds[51], br*leds[52], br*leds[53], br*leds[54], br*leds[55], br*leds[56], br*leds[57], br*leds[58], br*leds[59],))  # the 15h is 15 element, and h is an int type data
+    # ser.write(pack('60h', br*100, br*100, br*100, br*100, br*100, br*100,
+    #           br*100, br*100, br*100, br*100, br*100, br*100, br*100, br*100, br*100,
+    #                br*100, br*100, br*100, br*100, br*100, br*100,
+    #                br*100, br*100, br*100, br*100, br*100, br*100, br*100, br*100, br*100,
+    #                br*100, br*100, br*100, br*100, br*100, br*100,
+    #                br*100, br*100, br*100, br*100, br*100, br*100, br*100, br*100, br*100,
+    #                br*100, br*100, br*100, br*100, br*100, br*100,
+    #                br*100, br*100, br*100, br*100, br*100, br*100, br*100, br*100, br*100,))
+    ser.write(pack('20h', br*leds[0], br*leds[1], br*leds[2], br*leds[3], br*leds[4], br*leds[5], br*leds[6], br*leds[7], br*leds[8],
+              br*leds[9], br*leds[10], br*leds[11], br*leds[12], br*leds[13], br *
+                   leds[14], br*leds[15], br*leds[16], br *
+                   leds[17], br*leds[18], br*leds[19]))
     # time.sleep(.01)
-    # print(len(leds))
+    print(leds[0], leds[1], leds[2], leds[3], leds[4], leds[5], leds[6], leds[7], leds[8],
+          leds[9], leds[10], leds[11], leds[12], leds[13], leds[14])
     leds = []
-    pygame.display.update()
+    # pygame.display.update()
     pygame.display.set_caption(
         "Raycasting - FPS: " + str(round(clock.get_fps())))
 
@@ -86,6 +111,8 @@ while run:
                 ak = True
             if e.key == pygame.K_d:
                 dk = True
+            if e.key == pygame.K_z:
+                br -= 1
         if e.type == KEYUP:
             if e.key == pygame.K_w:
                 wk = False
@@ -95,6 +122,8 @@ while run:
                 ak = False
             if e.key == pygame.K_d:
                 dk = False
+            if e.key == pygame.K_x:
+                br += 1
 
     x, y = (xpos, ypos)
     if wk == True:
