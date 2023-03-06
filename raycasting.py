@@ -1,12 +1,19 @@
 import pygame
 from pygame.locals import *
 import math as m
+from struct import *
 import serial
+import sys
 import time
-import struct
+import random
+import ast
 
-ser = serial.Serial('/dev/ttyACM0', 9600)
-time.sleep(2)
+
+ser = serial.Serial(baudrate='115200', timeout=.5, port='/dev/ttyACM0')
+time.sleep(5)
+
+# ser = serial.Serial('/dev/ttyACM0', 9600)
+# time.sleep(2)
 
 win_width, win_height = (1600, 50)
 fps = 165  # 165hz monitor btw the way
@@ -27,6 +34,14 @@ environment = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 
 ]
+
+# environment = [
+#     [1, 1, 1, 1],
+#     [1, 0, 0, 1],
+#     [1, 0, 0, 1],
+#     [1, 1, 1, 1],
+# ]
+
 fov = 359
 xpos, ypos = (1, 1)
 rot_r = 0
@@ -41,20 +56,18 @@ wk, sk, ak, dk = False, False, False, False
 run = True
 
 
-def showLED(data):
-    # for i in range(len(data)):
-    #     ser.write(data[i])
-    ser.write(data)
-    # print(data)
-
-
-leds = []
+leds = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 ind = 0
 while run:
     clock.tick(fps)
-    # showLED((bytearray(leds)))
-    showLED(leds)
+    # print(leds[0])
+    ser.write(pack('15h', leds[0], leds[1], leds[2], leds[3], leds[4], leds[5], leds[6], leds[7], leds[8],
+              leds[9], leds[10], leds[11], leds[12], leds[13], leds[14],))  # the 15h is 15 element, and h is an int type data
+    # ser.write(pack('15h', 10, 20, 30, 40, 50, 60, 70,
+    #           80, 90, 100, 110, 120, 130, 140, 150))
+    # time.sleep(.01)
+    # print(len(leds))
     leds = []
     pygame.display.update()
     pygame.display.set_caption(
@@ -121,8 +134,8 @@ while run:
                              (i*(win_width/fov), (win_height/2) + height),  # pos 1
                              (i*(win_width/fov), (win_height/2) - height),  # pos 2
                              width=int(win_width/fov))
-            pixel = [0, 255-d, 255-d]
-            leds.append(0)
+            # pixel = [0, 255-d, 255-d]
+            # leds.append(0)
             leds.append(255-d)
-            leds.append(255-d)
+            # leds.append(255-d)
         ind += 1
