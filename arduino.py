@@ -7,15 +7,16 @@ import random
 import ast
 
 try:
-    ser = serial.Serial(baudrate='115200', timeout=.5, port='/dev/ttyACM0')
+    ser = serial.Serial(baudrate='230400', timeout=.5, port='COM3')
 except:
     print('Port open error')
 
 time.sleep(5)  # no delete!
+br = 100
 while True:
     # try:
-    ser.write(pack('15h', random.randint(0, 100), random.randint(0, 100), random.randint(0, 100), random.randint(0, 100), random.randint(0, 100), random.randint(0, 100), random.randint(0, 100), random.randint(0, 100), random.randint(
-        0, 100), random.randint(0, 100), random.randint(0, 100), random.randint(0, 100), random.randint(0, 100), random.randint(0, 100), random.randint(0, 100)))  # the 15h is 15 element, and h is an int type data
+    ser.write(pack('20h', br, br, br, br, br, br, br, br, br,
+              br, br, br, br, br, br, br, br, br, br, br))  # the 15h is 15 element, and h is an int type data
     time.sleep(.01)
     # dat = ser.readline()  # read a line data
 

@@ -9,7 +9,7 @@ import random
 import ast
 
 
-ser = serial.Serial(baudrate='230400', timeout=.5, port='/dev/ttyACM0')
+ser = serial.Serial(baudrate='115200', timeout=.5, port='COM4')
 time.sleep(5)
 
 # ser = serial.Serial('/dev/ttyACM0', 9600)
@@ -60,7 +60,7 @@ leds = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 ind = 0
-br = 1
+br = 150
 while run:
     clock.tick(fps)
     # print(leds[0])
@@ -86,15 +86,18 @@ while run:
     #                br*100, br*100, br*100, br*100, br*100, br*100, br*100, br*100, br*100,
     #                br*100, br*100, br*100, br*100, br*100, br*100,
     #                br*100, br*100, br*100, br*100, br*100, br*100, br*100, br*100, br*100,))
-    ser.write(pack('20h', br*leds[0], br*leds[1], br*leds[2], br*leds[3], br*leds[4], br*leds[5], br*leds[6], br*leds[7], br*leds[8],
-              br*leds[9], br*leds[10], br*leds[11], br*leds[12], br*leds[13], br *
-                   leds[14], br*leds[15], br*leds[16], br *
-                   leds[17], br*leds[18], br*leds[19]))
+    ser.write(pack('20h', leds[0], leds[1], leds[2], leds[3], leds[4], leds[5], leds[6], leds[7], leds[8], leds[9],
+              leds[10], leds[11], leds[12], leds[13], leds[14], leds[15], leds[16], leds[17], leds[18], leds[19]))
+    # ser.write(pack('20h', br, br, br, br, br, br, br, br, br,
+    #           br, br, br, br, br, br, br, br, br, br, br))
+
     # time.sleep(.01)
-    print(leds[0], leds[1], leds[2], leds[3], leds[4], leds[5], leds[6], leds[7], leds[8],
-          leds[9], leds[10], leds[11], leds[12], leds[13], leds[14])
+    # print(leds[0], leds[1], leds[2], leds[3], leds[4], leds[5], leds[6], leds[7], leds[8],
+    #       leds[9], leds[10], leds[11], leds[12], leds[13], leds[14], leds[15], leds[16], leds[17], leds[18],
+    #       leds[19])
+    # print(str(ser.readline()))
     leds = []
-    # pygame.display.update()
+    pygame.display.update()
     pygame.display.set_caption(
         "Raycasting - FPS: " + str(round(clock.get_fps())))
 

@@ -1,34 +1,51 @@
-//Arduino forum 2020 - https://forum.arduino.cc/index.php?topic=714968
-#include <FastLED.h>
+// NeoPixel Ring simple sketch (c) 2013 Shae Erisson
+// Released under the GPLv3 license to match the rest of the
+// Adafruit NeoPixel library
+
+#include <Adafruit_NeoPixel.h>
+#ifdef __AVR__
+ #include <avr/power.h> // Required for 16 MHz Adafruit Trinket
+#endif
+
+// Which pin on the Arduino is connected to the NeoPixels?
+#define PIN        13 
+// On Trinket or Gemma, suggest changing this to 1
 
 #define NUM_LEDS 20
 uint8_t max_bright = 1;                                     // Overall brightness definition. It can be changed on the fly.
-
-const byte resolution = 1;
-
-#define DATA_PIN 13
-
-CRGB leds[NUM_LEDS];
 
 int myArray[NUM_LEDS]; //this value is the upgratable data
 byte* ddata = reinterpret_cast<byte*>(&myArray); // pointer for transferData()
 size_t pcDataLen = sizeof(myArray);
 bool newData=false;
 
+
+// How many NeoPixels are attached to the Arduino?
+#define NUMPIXELS 20 // Popular NeoPixel ring size
+
+// When setting up the NeoPixel library, we tell it how many pixels,
+// and which pin to use to send signals. Note that for older NeoPixel
+// strips you might need to change the third parameter -- see the
+// strandtest example for more information on possible values.
+Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+
+#define DELAYVAL 500 // Time (in milliseconds) to pause between pixels
+
 void setup() {
-  Serial.begin(115200);//baudrate
-  FastLED.addLeds<WS2811, DATA_ PIN, RGB>(leds, NUM_LEDS);  // GRB ordering is typical
-  for(int i = 0; i < NUM_LEDS; i++)
-  {
-    leds[i] = 0x0000ff;
-    FastLED.show();
-    delay(5);
-    leds[i] = 0x000000;
- }
-  FastLED.show();
+  Serial.begin(115200);
+  // These lines are specifically to support the Adafruit Trinket 5V 16 MHz.
+  // Any other board, you can remove this part (but no harm leaving it):
+#if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
+  clock_prescale_set(clock_div_1);
+#endif
+  // END of Trinket-specific code.
+
+  pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
 }
 
 void loop() {
+  pixels.clear(); // Set all pixel colors to 'off'
+
     checkForNewData();
     if (newData == true) {
         newData = false;
@@ -44,9 +61,21 @@ void loop() {
     toPy(myArray[0],myArray[1],myArray[2],myArray[3],myArray[4],myArray[5],myArray[6],myArray[7],myArray[8],
     myArray[9],myArray[10],myArray[11],myArray[12],myArray[13],myArray[14],myArray[15],myArray[16],myArray[17],
     myArray[18],myArray[19]);
-     //here write the send data
-    //  toPy(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60);
-    }
+
+  // The first NeoPixel in a strand is #0, second is 1, all the way up
+  // to the count of pixels minus one.
+  // for(int i=0; i<NUMPIXELS; i++) { // For each pixel...
+
+  //   // pixels.Color() takes RGB values, from 0,0,0 up to 255,255,255
+  //   // Here we're using a moderately bright green color:
+  //   pixels.setPixelColor(i, pixels.Color(0, 150, 0));
+
+  //   pixels.show();   // Send the updated pixel colors to the hardware.
+
+  //   delay(DELAYVAL); // Pause before next pass through loop
+  // }
+  
+}
 
 void checkForNewData () {
     if (Serial.available() >= pcDataLen && newData == false) {
@@ -62,7 +91,6 @@ void checkForNewData () {
     }
 
 }
-
 
 // void toPy(int a,int b,int c,int d,int e,int f,
 //           int r,int h,int i,int j,int k,int l,
@@ -84,26 +112,47 @@ void toPy(int a,int b,int c,int d,int e,int f,
   //   leds[z] = CRGB(255,255,255);
   // }  
   // Serial.println(a);
-  leds[0].r = 100;
-  leds[1].r = 100;
-  leds[2].r = 100;
-  leds[3].r = d;
-  leds[4].r = e;
-  leds[5].r = f;
-  leds[6].r = g;
-  leds[7].r = h;
-  leds[8].r = i;
-  leds[9].r = j;
-  leds[10].r = k;
-  leds[11].r = l;
-  leds[12].r = m;
-  leds[13].r = n;
-  leds[14].r = o;
-  leds[15].r = o1;
-  leds[16].r = o2;
-  leds[17].r = o3;
-  leds[18].r = o4;
-  leds[19].r = o5;
+  pixels.setPixelColor(0, pixels.Color(0, a, 0));
+  pixels.setPixelColor(1, pixels.Color(0, b, 0));
+  pixels.setPixelColor(2, pixels.Color(0, c, 0));
+  pixels.setPixelColor(3, pixels.Color(0, d, 0));
+  pixels.setPixelColor(4, pixels.Color(0, e, 0));
+  pixels.setPixelColor(5, pixels.Color(0, f, 0));
+  pixels.setPixelColor(6, pixels.Color(0, g, 0));
+  pixels.setPixelColor(7, pixels.Color(0, h, 0));
+  pixels.setPixelColor(8, pixels.Color(0, i, 0));
+  pixels.setPixelColor(9, pixels.Color(0, j, 0));
+  pixels.setPixelColor(10, pixels.Color(0, k, 0));
+  pixels.setPixelColor(11, pixels.Color(0, l, 0));
+  pixels.setPixelColor(12, pixels.Color(0, m, 0));
+  pixels.setPixelColor(13, pixels.Color(0, n, 0));
+  pixels.setPixelColor(14, pixels.Color(0, o, 0));
+  pixels.setPixelColor(15, pixels.Color(0, o1, 0));
+  pixels.setPixelColor(16, pixels.Color(0, o2, 0));
+  pixels.setPixelColor(17, pixels.Color(0, o3, 0));  
+  pixels.setPixelColor(18, pixels.Color(0, o4, 0));
+  pixels.setPixelColor(19, pixels.Color(0, o5, 0));
+  pixels.show();
+  // leds[0].r = 100;
+  // leds[1].r = 100;
+  // leds[2].r = 100;
+  // leds[3].r = d;
+  // leds[4].r = e;
+  // leds[5].r = f;
+  // leds[6].r = g;
+  // leds[7].r = h;
+  // leds[8].r = i;
+  // leds[9].r = j;
+  // leds[10].r = k;
+  // leds[11].r = l;
+  // leds[12].r = m;
+  // leds[13].r = n;
+  // leds[14].r = o;
+  // leds[15].r = o1;
+  // leds[16].r = o2;
+  // leds[17].r = o3;
+  // leds[18].r = o4;
+  // leds[19].r = o5;
   // leds[20].r = o6;
   // leds[21].r = o7;
   // leds[22].r = o8;
@@ -147,7 +196,7 @@ void toPy(int a,int b,int c,int d,int e,int f,
 
 
 
-  FastLED.show();
+  // FastLED.show();
   // FastLED.setBrightness(OutVal);
   
 }
