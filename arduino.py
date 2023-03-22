@@ -15,8 +15,10 @@ time.sleep(5)  # no delete!
 br = 100
 while True:
     # try:
-    ser.write(pack('20h', br, br, br, br, br, br, br, br, br,
-              br, br, br, br, br, br, br, br, br, br, br))  # the 15h is 15 element, and h is an int type data
+    ser.write(pack('30h', br, br, br, br, br, br, br, br, br,
+              br, br, br, br, br, br, br, br, br, br, br,br, br, br, br, br, br, br, br, br, br))
+    #   # the 15h is 15 element, and h is an int type data
+    # ser.write(pack("iiiiiiiiiiiiiiiiiiii",br,br,br,br,br,br,br,br,br,br,br,br,br,br,br,br,br,br,br,br))
     time.sleep(.01)
     # dat = ser.readline()  # read a line data
 
