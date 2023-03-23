@@ -11,7 +11,7 @@
 #define PIN        13 
 // On Trinket or Gemma, suggest changing this to 1
 
-#define NUMPIXELS 20
+#define NUMPIXELS 60
 uint8_t max_bright = 1;                                     // Overall brightness definition. It can be changed on the fly.
 
 int myArray[NUMPIXELS]; //this value is the upgratable data
@@ -50,14 +50,11 @@ void loop() {
         newData = false;
     }
 
-    // test(myArray[0]);
 
-    // toPy(myArray[0],myArray[1],myArray[2],myArray[3],myArray[4],myArray[5],myArray[6],myArray[7],myArray[8],
-    // myArray[9],myArray[10],myArray[11],myArray[12],myArray[13],myArray[14],myArray[15],myArray[16],myArray[17],
-    //  myArray[18],myArray[19]);
-        toPy(myArray[0],myArray[1],myArray[2],myArray[3],myArray[4],myArray[5],myArray[6],myArray[7],myArray[8],
-    myArray[9],myArray[10],myArray[11],myArray[12],myArray[13],myArray[14],myArray[15],myArray[16],myArray[17],myArray[18],myArray[19], myArray[20],myArray[21],myArray[22],myArray[23],myArray[24],
-    myArray[25],myArray[26],myArray[27],myArray[28],myArray[29],myArray[30]);
+    //     toPy(myArray[0],myArray[1],myArray[2],myArray[3],myArray[4],myArray[5],myArray[6],myArray[7],myArray[8],
+    // myArray[9],myArray[10],myArray[11],myArray[12],myArray[13],myArray[14],myArray[15],myArray[16],myArray[17],myArray[18],myArray[19], myArray[20],myArray[21],myArray[22],myArray[23],myArray[24],
+    // myArray[25],myArray[26],myArray[27],myArray[28],myArray[29],myArray[30]);
+    toPy(myArray);
 
   // The first NeoPixel in a strand is #0, second is 1, all the way up
   // to the count of pixels minus one.
@@ -95,47 +92,54 @@ void checkForNewData () {
 
 }
 
-void toPy(int a,int b,int c,int d,int e,int f,
-          int g,int h,int i,int j, int a1,int a2,int a3,int a4,int a5,int a6,int a7,int a8,int a9,int a10,
-          int a11, int a12, int a13, int a14, int a15, int a16, int a17, int a18, int a19, int a20, int a21)
-{
+void toPy(int arr[]){
+  for(int i=0; i<NUMPIXELS;i++){
+    pixels.setPixelColor(i, pixels.Color(0, arr[i], 0));
+  }
+  pixels.show();
+}
 
-  pixels.setPixelColor(0, pixels.Color(0, a, 0));
-  pixels.setPixelColor(1, pixels.Color(0, b, 0));
-  pixels.setPixelColor(2, pixels.Color(0, c, 0));
-  pixels.setPixelColor(3, pixels.Color(0, d, 0));
-  pixels.setPixelColor(4, pixels.Color(0, e, 0));
-  pixels.setPixelColor(5, pixels.Color(0, f, 0));
-  pixels.setPixelColor(6, 0, g, 0);
-  pixels.setPixelColor(7, pixels.Color(0, h, 0));
-  pixels.setPixelColor(8, pixels.Color(0, i, 0));
-  pixels.setPixelColor(9, pixels.Color(0, j, 0));
-  pixels.setPixelColor(10, 0, a1, 0);
-  pixels.setPixelColor(11, pixels.Color(0, a2, 0));
-  pixels.setPixelColor(12, pixels.Color(0, a3, 0));
-  pixels.setPixelColor(13, pixels.Color(0, a4, 0));
-  pixels.setPixelColor(14, pixels.Color(0, a5, 0));
-  pixels.setPixelColor(15, pixels.Color(0, a6, 0));
-  pixels.setPixelColor(16, pixels.Color(0, a7, 0));
-  pixels.setPixelColor(17, pixels.Color(0, a8, 0));
-  pixels.setPixelColor(18, pixels.Color(0, a9, 0));
-  pixels.setPixelColor(19, pixels.Color(0, a10, 0)); 
-  pixels.setPixelColor(20, pixels.Color(0, a11, 0));
-  pixels.setPixelColor(21, pixels.Color(0, a12, 0));
-  pixels.setPixelColor(22, pixels.Color(0, a13, 0));
-  pixels.setPixelColor(23, pixels.Color(0, a14, 0));
-  pixels.setPixelColor(24, pixels.Color(0, a15, 0)); 
-  pixels.setPixelColor(25, pixels.Color(0, a16, 0));
-  pixels.setPixelColor(26, pixels.Color(0, a17, 0));
-  pixels.setPixelColor(27, pixels.Color(0, a18, 0));
-  pixels.setPixelColor(28, pixels.Color(0, a19, 0));
-  pixels.setPixelColor(29, pixels.Color(0, a20, 0));
-  pixels.setPixelColor(30, pixels.Color(255, a21, 0));
+// void toPy(int a,int b,int c,int d,int e,int f,
+//           int g,int h,int i,int j, int a1,int a2,int a3,int a4,int a5,int a6,int a7,int a8,int a9,int a10,
+//           int a11, int a12, int a13, int a14, int a15, int a16, int a17, int a18, int a19, int a20, int a21)
+// {
+
+//   pixels.setPixelColor(0, pixels.Color(0, a, 0));
+//   pixels.setPixelColor(1, pixels.Color(0, b, 0));
+//   pixels.setPixelColor(2, pixels.Color(0, c, 0));
+//   pixels.setPixelColor(3, pixels.Color(0, d, 0));
+//   pixels.setPixelColor(4, pixels.Color(0, e, 0));
+//   pixels.setPixelColor(5, pixels.Color(0, f, 0));
+//   pixels.setPixelColor(6, 0, g, 0);
+//   pixels.setPixelColor(7, pixels.Color(0, h, 0));
+//   pixels.setPixelColor(8, pixels.Color(0, i, 0));
+//   pixels.setPixelColor(9, pixels.Color(0, j, 0));
+//   pixels.setPixelColor(10, 0, a1, 0);
+//   pixels.setPixelColor(11, pixels.Color(0, a2, 0));
+//   pixels.setPixelColor(12, pixels.Color(0, a3, 0));
+//   pixels.setPixelColor(13, pixels.Color(0, a4, 0));
+//   pixels.setPixelColor(14, pixels.Color(0, a5, 0));
+//   pixels.setPixelColor(15, pixels.Color(0, a6, 0));
+//   pixels.setPixelColor(16, pixels.Color(0, a7, 0));
+//   pixels.setPixelColor(17, pixels.Color(0, a8, 0));
+//   pixels.setPixelColor(18, pixels.Color(0, a9, 0));
+//   pixels.setPixelColor(19, pixels.Color(0, a10, 0)); 
+//   pixels.setPixelColor(20, pixels.Color(0, a11, 0));
+//   pixels.setPixelColor(21, pixels.Color(0, a12, 0));
+//   pixels.setPixelColor(22, pixels.Color(0, a13, 0));
+//   pixels.setPixelColor(23, pixels.Color(0, a14, 0));
+//   pixels.setPixelColor(24, pixels.Color(0, a15, 0)); 
+//   pixels.setPixelColor(25, pixels.Color(0, a16, 0));
+//   pixels.setPixelColor(26, pixels.Color(0, a17, 0));
+//   pixels.setPixelColor(27, pixels.Color(0, a18, 0));
+//   pixels.setPixelColor(28, pixels.Color(0, a19, 0));
+//   pixels.setPixelColor(29, pixels.Color(0, a20, 0));
+//   pixels.setPixelColor(30, pixels.Color(255, a21, 0));
    
 
 
-  pixels.show();
+//   pixels.show();
   
-}
+// }
 
 
