@@ -11,10 +11,11 @@
 #define PIN        13 
 // On Trinket or Gemma, suggest changing this to 1
 
-#define NUMPIXELS 60
+#define NUMPIXELS 240
+#define ELEMENTS 30
 uint8_t max_bright = 1;                                     // Overall brightness definition. It can be changed on the fly.
 
-int myArray[NUMPIXELS]; //this value is the upgratable data
+int myArray[ELEMENTS]; //this value is the upgratable data
 byte* ddata = reinterpret_cast<byte*>(&myArray); // pointer for transferData()
 size_t pcDataLen = sizeof(myArray);
 bool newData=false;
@@ -40,6 +41,7 @@ void setup() {
   // END of Trinket-specific code.
 
   pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
+  pixels.clear();
 }
 
 void loop() {
@@ -93,53 +95,26 @@ void checkForNewData () {
 }
 
 void toPy(int arr[]){
-  for(int i=0; i<NUMPIXELS;i++){
-    pixels.setPixelColor(i, pixels.Color(0, arr[i], 0));
+  for(int i=0; i<ELEMENTS;i++){
+    // if(i==NUMPIXELS/2){
+    //   pixels.setPixelColor(i, pixels.Color(0, 0, 255));
+    // }
+    // for(int j=0;j<4;j++){
+    //   pixels.setPixelColor((i*4), pixels.Color(0, arr[i], 0));
+    //   pixels.setPixelColor((i*4)+1, pixels.Color(0, arr[i], 0));
+    //   pixels.setPixelColor((i*4)+2, pixels.Color(0, arr[i], 0));
+    //   pixels.setPixelColor((i*4)+3, pixels.Color(0, arr[i], 0));      
+    // // }
+    int z=i*3;
+    pixels.setPixelColor(z, pixels.Color(0, arr[i], 0));
+    pixels.setPixelColor(z+1, pixels.Color(0, arr[i], 0));
+    pixels.setPixelColor(z+2, pixels.Color(0, arr[i], 0));
+    // pixels.setPixelColor(z+3, pixels.Color(0, arr[i], 0));     
+    // pixels.setPixelColor(i, pixels.Color(0, arr[i], 0));
+
   }
   pixels.show();
 }
 
-// void toPy(int a,int b,int c,int d,int e,int f,
-//           int g,int h,int i,int j, int a1,int a2,int a3,int a4,int a5,int a6,int a7,int a8,int a9,int a10,
-//           int a11, int a12, int a13, int a14, int a15, int a16, int a17, int a18, int a19, int a20, int a21)
-// {
-
-//   pixels.setPixelColor(0, pixels.Color(0, a, 0));
-//   pixels.setPixelColor(1, pixels.Color(0, b, 0));
-//   pixels.setPixelColor(2, pixels.Color(0, c, 0));
-//   pixels.setPixelColor(3, pixels.Color(0, d, 0));
-//   pixels.setPixelColor(4, pixels.Color(0, e, 0));
-//   pixels.setPixelColor(5, pixels.Color(0, f, 0));
-//   pixels.setPixelColor(6, 0, g, 0);
-//   pixels.setPixelColor(7, pixels.Color(0, h, 0));
-//   pixels.setPixelColor(8, pixels.Color(0, i, 0));
-//   pixels.setPixelColor(9, pixels.Color(0, j, 0));
-//   pixels.setPixelColor(10, 0, a1, 0);
-//   pixels.setPixelColor(11, pixels.Color(0, a2, 0));
-//   pixels.setPixelColor(12, pixels.Color(0, a3, 0));
-//   pixels.setPixelColor(13, pixels.Color(0, a4, 0));
-//   pixels.setPixelColor(14, pixels.Color(0, a5, 0));
-//   pixels.setPixelColor(15, pixels.Color(0, a6, 0));
-//   pixels.setPixelColor(16, pixels.Color(0, a7, 0));
-//   pixels.setPixelColor(17, pixels.Color(0, a8, 0));
-//   pixels.setPixelColor(18, pixels.Color(0, a9, 0));
-//   pixels.setPixelColor(19, pixels.Color(0, a10, 0)); 
-//   pixels.setPixelColor(20, pixels.Color(0, a11, 0));
-//   pixels.setPixelColor(21, pixels.Color(0, a12, 0));
-//   pixels.setPixelColor(22, pixels.Color(0, a13, 0));
-//   pixels.setPixelColor(23, pixels.Color(0, a14, 0));
-//   pixels.setPixelColor(24, pixels.Color(0, a15, 0)); 
-//   pixels.setPixelColor(25, pixels.Color(0, a16, 0));
-//   pixels.setPixelColor(26, pixels.Color(0, a17, 0));
-//   pixels.setPixelColor(27, pixels.Color(0, a18, 0));
-//   pixels.setPixelColor(28, pixels.Color(0, a19, 0));
-//   pixels.setPixelColor(29, pixels.Color(0, a20, 0));
-//   pixels.setPixelColor(30, pixels.Color(255, a21, 0));
-   
-
-
-//   pixels.show();
-  
-// }
 
 
