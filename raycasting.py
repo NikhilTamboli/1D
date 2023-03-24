@@ -93,8 +93,8 @@ def renderMaze(maze, display):
 
 def game():
 
-    win_width, win_height = (800, 50)
-    # win_width, win_height = (700, 800)
+    # win_width, win_height = (800, 50)
+    win_width, win_height = (400, 450)
     fps = 165  # 165hz monitor btw the way
     display = pygame.display.set_mode((win_width, win_height))
     pygame.display.set_caption("Raycasting")
@@ -111,15 +111,15 @@ def game():
         [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 
     ]
@@ -154,7 +154,7 @@ def game():
             ser.write(pack('60h', leds[0], leds[1], leds[2], leds[3], leds[4], leds[5], leds[6], leds[7], leds[8], leds[9],leds[10], leds[11], leds[12], leds[13], leds[14], leds[15], leds[16], leds[17], leds[18], leds[19], leds[20], leds[21], leds[22], leds[23], leds[24],leds[25], leds[26], leds[27], leds[28], leds[29],leds[30],leds[31],leds[32],leds[33],leds[34],leds[35],leds[36],leds[37],leds[38],leds[39], leds[40],leds[41],leds[42],leds[43],leds[44],leds[45],leds[46],leds[47],leds[48],leds[49],leds[50],leds[51],leds[52],leds[53],leds[54],leds[55],leds[56],leds[57],leds[58],leds[59]))
 
         leds = []
-        # renderMaze(environment, display)
+        renderMaze(environment, display)
         pygame.display.update()
         pygame.display.set_caption(
             "Raycasting - FPS: " + str(round(clock.get_fps())))
@@ -223,14 +223,17 @@ def game():
             rot_r -= sensitivity
         if dk == True or gamepad()=="d":
             rot_r += sensitivity
-        if environment[int(x)][int(y)] == 0:
-            xpos, ypos = (x, y)
-
-        display.fill((0, 0, 0))
 
         if(environment[int(x)][int(y)]==2):
             # leds[0]=999
             end = True
+            
+        if environment[int(x)][int(y)] != 1:
+            environment[int(xpos)][int(ypos)]=0
+            xpos, ypos = (x, y)
+            environment[int(xpos)][int(ypos)]=3
+
+        display.fill((0, 0, 0))
             
 
         for i in range(fov+1):
@@ -241,7 +244,7 @@ def game():
             while True:
                 x, y = (x + cos, y + sin)
                 j += 1
-                if environment[int(x)][int(y)] == 1:
+                if environment[int(x)][int(y)] == 1 :
                     tile = environment[int(x)][int(y)]
                     d = j
                     j = j * m.cos(m.radians(i-fov/2))
