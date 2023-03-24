@@ -11,7 +11,7 @@
 #define PIN        13 
 // On Trinket or Gemma, suggest changing this to 1
 
-#define NUMPIXELS 240
+#define NUMPIXELS 90
 #define ELEMENTS 30
 uint8_t max_bright = 1;                                     // Overall brightness definition. It can be changed on the fly.
 
@@ -96,23 +96,14 @@ void checkForNewData () {
 
 void toPy(int arr[]){
   for(int i=0; i<ELEMENTS;i++){
-    // if(i==NUMPIXELS/2){
-    //   pixels.setPixelColor(i, pixels.Color(0, 0, 255));
-    // }
-    // for(int j=0;j<4;j++){
-    //   pixels.setPixelColor((i*4), pixels.Color(0, arr[i], 0));
-    //   pixels.setPixelColor((i*4)+1, pixels.Color(0, arr[i], 0));
-    //   pixels.setPixelColor((i*4)+2, pixels.Color(0, arr[i], 0));
-    //   pixels.setPixelColor((i*4)+3, pixels.Color(0, arr[i], 0));      
-    // // }
+
     int z=i*3;
     pixels.setPixelColor(z, pixels.Color(0, arr[i], 0));
     pixels.setPixelColor(z+1, pixels.Color(0, arr[i], 0));
     pixels.setPixelColor(z+2, pixels.Color(0, arr[i], 0));
-    // pixels.setPixelColor(z+3, pixels.Color(0, arr[i], 0));     
-    // pixels.setPixelColor(i, pixels.Color(0, arr[i], 0));
 
   }
+  pixels.setPixelColor(45, pixels.Color(0, 0, 255));
   pixels.show();
 }
 
