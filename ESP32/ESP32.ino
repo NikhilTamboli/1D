@@ -45,7 +45,7 @@ void setup() {
 }
 
 void loop() {
-  pixels.clear(); // Set all pixel colors to 'off'
+  // pixels.clear(); // Set all pixel colors to 'off'
 
     checkForNewData();
     if (newData == true) {
@@ -95,16 +95,29 @@ void checkForNewData () {
 }
 
 void toPy(int arr[]){
-  for(int i=0; i<ELEMENTS;i++){
+  if(arr[0]!=999){
+    for(int i=0; i<ELEMENTS;i++){
 
-    int z=i*3;
-    pixels.setPixelColor(z, pixels.Color(0, arr[i], 0));
-    pixels.setPixelColor(z+1, pixels.Color(0, arr[i], 0));
-    pixels.setPixelColor(z+2, pixels.Color(0, arr[i], 0));
+        int z=i*3;
+        pixels.setPixelColor(z, pixels.Color(0, arr[i], 0));
+        pixels.setPixelColor(z+1, pixels.Color(0, arr[i], 0));
+        pixels.setPixelColor(z+2, pixels.Color(0, arr[i], 0));
 
+      }
+      pixels.setPixelColor(45, pixels.Color(0, 0, 255));
   }
-  pixels.setPixelColor(45, pixels.Color(0, 0, 255));
-  pixels.show();
+  else {
+      for(int i=0; i<ELEMENTS;i++){
+
+      int z=i*3;
+      pixels.setPixelColor(z, pixels.Color(0, 0, 255));
+      pixels.setPixelColor(z+1, pixels.Color(0, 0, 255));
+      pixels.setPixelColor(z+2, pixels.Color(0, 0, 255));
+
+    }
+  }
+
+    pixels.show();
 }
 
 

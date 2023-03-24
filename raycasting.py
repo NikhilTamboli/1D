@@ -132,6 +132,8 @@ def game():
     ind = 0
     br = 150
 
+    end = False
+
     while run:
 
         # event = gamepad()
@@ -217,7 +219,9 @@ def game():
         display.fill((0, 0, 0))
 
         if(environment[int(x)][int(y)]==2):
-            print("end")
+            # leds[0]=999
+            end = True
+            
 
         for i in range(fov+1):
             rot_d = rot_r + m.radians(i - fov/2)
@@ -236,14 +240,20 @@ def game():
                     break
             if d > 255:
                 d = 255
-            pygame.draw.line(display,
-                                (0, 255-d, 255-d),  # color
-                                (i*(win_width/fov), (win_height/2) + height),  # pos 1
-                                (i*(win_width/fov), (win_height/2) - height),  # pos 2
-                                width=int(win_width/fov))            
-            if(ind%6==0):
+            if(not end):
+                pygame.draw.line(display,
+                                    (0, 255-d, 255-d),  # color
+                                    (i*(win_width/fov), (win_height/2) + height),  # pos 1
+                                    (i*(win_width/fov), (win_height/2) - height),  # pos 2
+                                    width=int(win_width/fov))            
+                if(ind%6==0):
 
-                leds.append(255-d)
-            ind += 1
+                    leds.append(255-d)
+                ind += 1
+            else:
+                for i in range(60):
+                    leds.append(0)
+                leds[0]=999
+                
 
 game()
