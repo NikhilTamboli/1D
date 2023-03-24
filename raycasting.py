@@ -113,7 +113,7 @@ def game():
         [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -131,7 +131,7 @@ def game():
     sensitivity = m.pi/256*2
     move_speed = 0.01
 
-    precision = 0.005
+    precision = 0.0075
 
     wk, sk, ak, dk = False, False, False, False
 
@@ -143,6 +143,7 @@ def game():
     br = 150
 
     end = False
+
 
     while run:
 
@@ -221,6 +222,7 @@ def game():
             x, y = (x-move_speed*m.cos(rot_r), y-move_speed*m.sin(rot_r))
         if ak == True or gamepad()=="a":
             rot_r -= sensitivity
+
         if dk == True or gamepad()=="d":
             rot_r += sensitivity
 
@@ -238,6 +240,7 @@ def game():
 
         for i in range(fov+1):
             rot_d = rot_r + m.radians(i - fov/2)
+            # rot_d = m.radians(i - fov/2)
             x, y = (xpos, ypos)
             sin, cos = (precision*m.sin(rot_d), precision*m.cos(rot_d))
             j = 0
@@ -260,13 +263,14 @@ def game():
                                     (i*(win_width/fov), (win_height/2) - height),  # pos 2
                                     width=int(win_width/fov))            
                 if(ind%6==0):
-
-                    leds.append(255-d)
+                    leds.append(255-d)  
                 ind += 1
             else:
                 for i in range(60):
                     leds.append(0)
                 leds[0]=999
+            
+            
                 
 
 game()

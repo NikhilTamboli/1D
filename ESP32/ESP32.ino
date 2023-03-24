@@ -99,12 +99,16 @@ void toPy(int arr[]){
     for(int i=0; i<ELEMENTS;i++){
 
         int z=i*3;
-        // pixels.setPixelColor(z, 0, 0, 0, arr[i]);
-        // pixels.setPixelColor(z+1, 0, 0, 0, arr[i]);
-        // pixels.setPixelColor(z+2, 0, 0, 0, arr[i]);
-        pixels.setPixelColor(z, 0, arr[i],0);
-        pixels.setPixelColor(z+1, 0, arr[i],0);
-        pixels.setPixelColor(z+2, 0, arr[i],0);        
+        if(arr[i]!=404){
+          pixels.setPixelColor(z, 0, arr[i],arr[i]);
+          pixels.setPixelColor(z+1, 0, arr[i],arr[i]);
+          pixels.setPixelColor(z+2, 0, arr[i],arr[i]);           
+        }       
+        else {
+          pixels.setPixelColor(z, 0, 0,255);
+          pixels.setPixelColor(z+1, 0, 0,255);
+          pixels.setPixelColor(z+2, 0, 0,255); 
+        }
 
       }
       pixels.setPixelColor(45, 0,0,255);
@@ -121,6 +125,7 @@ void toPy(int arr[]){
   }
     // uint32_t rgbcolor = pixels.ColorHSV(100, 100, 100);
     // pixels.fill(rgbcolor);
+    pixels.setBrightness(10);
     pixels.show();
 }
 
