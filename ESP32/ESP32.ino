@@ -96,22 +96,16 @@ void checkForNewData () {
 
 void toPy(int arr[]){
   if(arr[0]!=999){
-    for(int i=0; i<ELEMENTS;i++){
+    for(int i=0,j=0; i<ELEMENTS;i++,j++){
 
         int z=i*3;
-        if(arr[i]!=404){
-          pixels.setPixelColor(z, 0, arr[i],arr[i]);
-          pixels.setPixelColor(z+1, 0, arr[i],arr[i]);
-          pixels.setPixelColor(z+2, 0, arr[i],arr[i]);           
-        }       
-        else {
-          pixels.setPixelColor(z, 0, 0,255);
-          pixels.setPixelColor(z+1, 0, 0,255);
-          pixels.setPixelColor(z+2, 0, 0,255); 
-        }
 
+        pixels.setPixelColor(z, 0, arr[i],arr[i]);
+        pixels.setPixelColor(z+1, 0, arr[i],arr[i]);
+        pixels.setPixelColor(z+2, 0, arr[i],arr[i]);  
       }
-      pixels.setPixelColor(45, 0,0,255);
+    
+      
   }
   else {
       for(int i=0; i<ELEMENTS;i++){
@@ -128,6 +122,5 @@ void toPy(int arr[]){
     pixels.setBrightness(10);
     pixels.show();
 }
-
 
 
